@@ -1,2 +1,7 @@
-# chantelWebsocketServer
-Simple websocket server which allows broadcast to P5Js clients
+WebSockets Server using ws
+================================
+
+By Chantel Mager. .
+-------------------
+
+\ ゜o゜)ノ
