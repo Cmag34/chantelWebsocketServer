@@ -1,19 +1,20 @@
 const WebSocket = require("ws");
-
 const wss = new WebSocket.Server({ port: 8080 });
-
 const clients = new Map();
 
 //code mostly from https://ably.com/blog/web-app-websockets-nodejs
 
+//accept new connection 
 wss.on("connection", (wss) => {
   const id = uuidv4();
   const color = Math.floor(Math.random() * 360);
   const metadata = { id, color };
 
+  //add new connection to client list
   clients.set(wss, metadata);
   console.log("connected, ID " + id);
 
+  //process new function message
   wss.on("message", (message) => {
     console.log(`Received message => ${message}`);
 
@@ -21,12 +22,13 @@ wss.on("connection", (wss) => {
     [...clients.keys()].forEach((client) => {
       console.log("sending message to client ");
 
-      //only send message to other clients
+      //don't send the message to sender, only to orher clients
       if (client !== wss){
         client.send(message);
       }
     });
   });
+  
   
   wss.on("close", () => {
     console.log("client disconnect")
